@@ -10,7 +10,13 @@ st.title("HVAC Drawing Extraction System")
 
 # PDF Path
 
-pdf_path = "Vital A1-A2 HVAC Drawings.pdf"
+uploaded_file = st.file_uploader("Upload a PDF file", type=["pdf"])
+if uploaded_file is not None:
+    with open("temp.pdf", "wb") as f:
+        f.write(uploaded_file.read())
+    pdf_path = "temp.pdf"
+    st.success("PDF uploaded successfully.")
+
 if not os.path.exists(pdf_path):
     st.error("PDF file not found in project folder.")
     st.stop()
