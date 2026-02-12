@@ -1,9 +1,9 @@
 import streamlit as st
 import os
 
-from metadata_extractor import extract_global_metadata, extract_page_metadata
-from piping_extractor import extract_pipes_from_page
-from sheetmetal_extractor import extract_ducts_from_page
+from backend.metadata_extractor import extract_global_metadata, extract_page_metadata
+from backend.piping_extractor import extract_pipes_from_page
+from backend.sheetmetal_extractor import extract_ducts_from_page
 
 st.set_page_config(page_title="HVAC AI", layout="wide")
 st.title("HVAC Drawing Extraction System")
