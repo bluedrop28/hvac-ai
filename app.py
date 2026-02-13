@@ -14,11 +14,6 @@ if uploaded_file is not None:
         f.write(uploaded_file.read())
     pdf_path = "temp.pdf"
     st.success("PDF uploaded successfully.")
-
-if not os.path.exists(pdf_path):
-    st.error("PDF file not found in project folder.")
-    st.stop()
-
  
 st.sidebar.header("Controls")
 option = st.sidebar.selectbox(
