@@ -67,26 +67,19 @@ def extract_ducts_from_page(pdf_path, page_number):
                         "thickness": thickness,
                         "length": round(length, 1)
                     })
-
     return ducts
 
-
-
-pdf_path = "Vital A1-A2 HVAC Drawings.pdf"
-while True:
-    user_input = input("\nEnter page number for sheet metal extraction (0 to exit): ")
-    if user_input.lower() in ["0", "exit"]:
-        break
-    if not user_input.isdigit():
-        print("Invalid input. Enter a number.")
-        continue
-    page_number = int(user_input)
-    ducts = extract_ducts_from_page(pdf_path, page_number)
-    print(f"\nDUCTS FOUND: {len(ducts)}\n")
-
-    for d in ducts[:10]:
-        print(d)
-    output_file = f"ducts_page_{page_number}.json"
-    with open(output_file, "w") as f:
-        json.dump(ducts, f, indent=2)
-    print(f"\nSaved {output_file}")
+if __name__ == "__main__":
+    pdf_path = "Vital A1-A2 HVAC Drawings.pdf"
+    while True:
+        user_input = input("\nEnter page number for sheet metal extraction (0 to exit): ")
+        if user_input.lower() in ["0", "exit"]:
+            break
+        if not user_input.isdigit():
+            print("Invalid input. Enter a number.")
+            continue
+        page_number = int(user_input)
+        ducts = extract_ducts_from_page(pdf_path, page_number)
+        print(f"\nDUCTS FOUND: {len(ducts)}\n")
+        for d in ducts[:10]:
+            print(d)
