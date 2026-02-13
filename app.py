@@ -9,12 +9,13 @@ st.set_page_config(page_title="HVAC AI", layout="wide")
 st.title("HVAC Drawing Extraction System")
 
 uploaded_file = st.file_uploader("Upload a PDF file", type=["pdf"])
+pdf_path = None
 if uploaded_file is not None:
-    with open("temp.pdf", "wb") as f:
-        f.write(uploaded_file.read())
-    pdf_path = "temp.pdf"
-    st.success("PDF uploaded successfully.")
- 
+    pdf_path = uploaded_file.name
+    with open(pdf_path, "wb") as f:
+        f.write(uploaded_file.getbuffer())
+    st.success("PDF uploaded successfully")
+
 st.sidebar.header("Controls")
 option = st.sidebar.selectbox(
     "Select Extraction Type",
