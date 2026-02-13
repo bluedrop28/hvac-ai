@@ -24,25 +24,18 @@ def extract_ducts_from_page(pdf_path, page_number):
             y0 = round(line["y0"], 1)
             y1 = round(line["y1"], 1)
             thickness = round(line.get("linewidth", 0), 2)
-
-            # Thickness filter (stronger)
             if thickness < 9.5:
                 continue
 
-            # Compute length
             length = math.hypot(x1 - x0, y1 - y0)
-
-            # Ignore short segments
             if length < 80:
                 continue
 
-            # Ignore border region (within 40px of page edges)
             if (
                 x0 < 40 or x1 > page_width - 40 or
                 y0 < 40 or y1 > page_height - 40
             ):
                 continue
-
             # Horizontal
             if abs(y0 - y1) < 2:
                 key = ("H", x0, x1, y0)
@@ -79,8 +72,6 @@ def extract_ducts_from_page(pdf_path, page_number):
 
 
 
-# User Input Loop 
-
 pdf_path = "Vital A1-A2 HVAC Drawings.pdf"
 while True:
     user_input = input("\nEnter page number for sheet metal extraction (0 to exit): ")
@@ -93,7 +84,7 @@ while True:
     ducts = extract_ducts_from_page(pdf_path, page_number)
     print(f"\nDUCTS FOUND: {len(ducts)}\n")
 
-    for d in ducts[:10]:  # show only first 10 in terminal
+    for d in ducts[:10]:
         print(d)
     output_file = f"ducts_page_{page_number}.json"
     with open(output_file, "w") as f:

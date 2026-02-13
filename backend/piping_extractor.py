@@ -3,7 +3,6 @@ import json
 
 
 def extract_pipes_from_page(pdf_path, page_number):
-
     pipes = []
     seen = set()
 
@@ -13,23 +12,21 @@ def extract_pipes_from_page(pdf_path, page_number):
             return []
         page = pdf.pages[page_number - 1]
 
-        # Remove hairlines (very thin drafting lines)
         lines = [
             l for l in page.lines
             if l.get("width", 0) > 0.5
         ]
 
-        # Separate horizontal and vertical
         horizontal = []
         vertical = []
         for l in lines:
             x0, y0, x1, y1 = l["x0"], l["y0"], l["x1"], l["y1"]
 
-            if abs(y0 - y1) < 1:  # horizontal
-                if abs(x1 - x0) > 100:  # strong length filter
+            if abs(y0 - y1) < 1:  
+                if abs(x1 - x0) > 100: 
                     horizontal.append(l)
 
-            if abs(x0 - x1) < 1:  # vertical
+            if abs(x0 - x1) < 1:  
                 if abs(y1 - y0) > 100:
                     vertical.append(l)
 
@@ -42,8 +39,8 @@ def extract_pipes_from_page(pdf_path, page_number):
                 gap = abs(l1["y0"] - l2["y0"])
                 overlap = min(l1["x1"], l2["x1"]) - max(l1["x0"], l2["x0"])
 
-                if 3 < gap < 8 and overlap > 120:  # stronger overlap filter
-                    x_start = round(max(l1["x0"], l2["x0"]), -1)   # round to nearest 10
+                if 3 < gap < 8 and overlap > 120:  
+                    x_start = round(max(l1["x0"], l2["x0"]), -1) 
                     x_end   = round(min(l1["x1"], l2["x1"]), -1)
                     center_y = round((l1["y0"] + l2["y0"]) / 2, 0)
                     pipe_key = (x_start, x_end, center_y)   
@@ -87,7 +84,6 @@ def extract_pipes_from_page(pdf_path, page_number):
 
     return pipes
 
-# MAIN (User Input Controlled)
 
 if __name__ == "__main__":
     pdf_path = "Vital A1-A2 HVAC Drawings.pdf"
@@ -99,7 +95,7 @@ if __name__ == "__main__":
         pipes = extract_pipes_from_page(pdf_path, page_number)
         print(f"\nPIPES FOUND: {len(pipes)}\n")
 
-        for p in pipes[:10]:  # print first 10 only
+        for p in pipes[:10]:
             print(p)
         output_file = f"pipes_page_{page_number}.json"
         with open(output_file, "w") as f:
